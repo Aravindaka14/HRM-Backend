@@ -1,13 +1,20 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true  }, 
+  // unique: true
   password: { type: String, required: true },
   role: { type: String, enum: ['Admin', 'Employee'], default: 'Employee' },
-  archieved: true
+  archieved: {type: Boolean,default: false},
 });
+
+// Create the model
+const User = mongoose.model('User', userSchema);
+
+export default User;
+
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {
@@ -17,4 +24,4 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-export default model('User', userSchema);
+// export default model('User', userSchema);

@@ -6,7 +6,7 @@ const employeeSchema = new Schema({
   // email: { type: String, required: true, unique: true },
   department: { type: String, required: true },
   hireDate: { type: Date, default: Date.now },
-  salary: { type: Number, required: true },
+  salary: { type: Number },
   isActive: { type: Boolean, default: true },
   isValidated: { type: Boolean, default: false },  // New field for validation
   validationToken: { type: String }                 // Token for email validation

@@ -1,0 +1,6 @@
+admin : 
+        - sign up ( we create admin in backend)
+        - log in (email and password)
+        - Side Section
+                - Dashboard
+                - All Employees 
