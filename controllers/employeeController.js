@@ -59,11 +59,11 @@ import { randomBytes } from 'crypto';
 // Add new employee and send email for validation
 export async function addEmployee(req, res) {
 
-  const { firstName, lastName, email, department,  text  } = req.body;
+  const { firstName, lastName, email, department,activationLink } = req.body;
   // console.log(firstName, lastName, email, department, salary );
 
   try {
-    const newEmployee = new Employee({ firstName, lastName, email, department, text });
+    const newEmployee = new Employee({ firstName, lastName, email, department});
 
     // Generate validation token
     // const validationToken = randomBytes(20).toString('hex');
@@ -85,9 +85,20 @@ export async function addEmployee(req, res) {
       from: process.env.EMAIL_USER,
       to: email,
       subject: 'Employee Email Validation from Ultrafly',
-      text:text,
-      // html: `<p>Click the link below to validate your email:</p><a href="${validationLink}">${validationLink}</a>`
-      html:`${text}`
+      html: `
+      <p>Dear ${firstName},</p>
+      <p>We are excited to have you join the <strong>[Your Company]</strong> family! To help you get started, we need you to activate your employee account.</p>
+      <p>Please click the link below to complete the activation process:</p>
+      <p><a href="${activationLink}" style="color: #007bff; text-decoration: none;">Activate My Account</a></p>
+      <p>This link is valid until [date/time, if applicable]. Once your account is activated, you will gain access to the <strong>[platform details]</strong>.</p>
+      <p>If you encounter any issues during activation, please don't hesitate to reach out to us at <a href="mailto:${process.env.EMAIL_USER}">${process.env.EMAIL_USER}</a>.</p>
+      <p>We look forward to working together and achieving great success!</p>
+      <br />
+      <p>Best regards,</p>
+      <p><strong>[Your Full Name]</strong></p>
+      <p>[Your Job Title]</p>
+      <p>[Your Company Name]</p>
+    `
     };
     // console.log(mailOptions)
     await transporter.sendMail(mailOptions);
